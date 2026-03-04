@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BawaCap Limited – Building the Physical Backbone of Digital Inclusion</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:       #2e6b47;
+    --green-dark:  #1e4a30;
+    --green-light: #4a9165;
+    --green-muted: #e8f2ec;
+    --grey:        #5a5a5a;
+    --grey-dark:   #2e2e2e;
+    --gold:        #c8a96e;
+    --gold-light:  #e2c99a;
+    --white:       #ffffff;
+    --cream:       #faf9f6;
+    --warm:        #f3f0e8;
+    --text:        #2e2e2e;
+    --text-soft:   #5a5a5a;
+    --border:      rgba(46,107,71,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(46,46,46,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--green);
+    padding: 0 6%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo img { height: 48px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
+
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: rgba(255,255,255,0.65); font-size: 0.83rem; font-weight: 400; letter-spacing: 0.3px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--grey-dark);
+    display: flex; align-items: center;
+    padding: 130px 6% 100px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 50% 60% at 80% 45%, rgba(46,107,71,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 30% 40% at 10% 80%, rgba(46,107,71,0.07) 0%, transparent 55%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(46,107,71,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,107,71,0.04) 1px, transparent 1px);
+    background-size: 55px 55px;
+  }
+
+  .hero-deco {
+    position: absolute; right: 3%; top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.06; pointer-events: none;
+  }
+
+  .hero-content { position: relative; max-width: 700px; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--green-light); font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 1.8rem; font-weight: 600;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--green-light); }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    color: var(--white); line-height: 1.1; margin-bottom: 1.6rem;
+    animation: fadeUp 0.8s 0.15s ease both;
+    font-weight: 400;
+  }
+  h1 em { color: var(--green-light); font-style: italic; }
+
+  .hero-sub {
+    color: rgba(255,255,255,0.55); font-size: 1.05rem; font-weight: 300;
+    line-height: 1.75; margin-bottom: 2.5rem; max-width: 560px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-cta { animation: fadeUp 0.8s 0.45s ease both; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--green); color: var(--white);
+    padding: 14px 34px; border: none; cursor: pointer;
+    font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; font-size: 0.85rem;
+    letter-spacing: 0.5px; text-decoration: none; display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent; color: rgba(255,255,255,0.7);
+    padding: 14px 34px; border: 1px solid rgba(255,255,255,0.18); cursor: pointer;
+    font-family: 'Be Vietnam Pro', sans-serif; font-weight: 400; font-size: 0.85rem;
+    text-decoration: none; display: inline-block;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--green-light); color: var(--green-light); transform: translateY(-2px); }
+
+  /* ── GREEN ACCENT BAR ── */
+  .accent-bar {
+    background: var(--green);
+    padding: 1.4rem 6%;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .accent-bar p {
+    color: rgba(255,255,255,0.85); font-size: 0.95rem; font-weight: 400;
+    font-style: italic; text-align: center; line-height: 1.6; max-width: 800px;
+    font-family: 'Lora', serif;
+  }
+  .accent-bar p em { color: var(--gold-light); font-style: normal; font-weight: 600; }
+
+  /* ── SECTIONS ── */
+  section { padding: 90px 6%; }
+
+  .section-eyebrow {
+    font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.75rem; display: block; font-weight: 600;
+  }
+
+  /* ── MISSION ── */
+  .mission { background: var(--cream); }
+
+  .mission-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+
+  .mission-text h2 {
+    font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 400;
+    line-height: 1.35; margin-bottom: 1.4rem; color: var(--grey-dark);
+  }
+  .mission-text h2 em { color: var(--green); font-style: italic; }
+  .mission-text p { font-size: 0.97rem; color: var(--text-soft); line-height: 1.85; margin-bottom: 1.1rem; }
+
+  .mission-img { position: relative; aspect-ratio: 4/3; overflow: visible; }
+  .mission-img::after {
+    content: '';
+    position: absolute; bottom: -12px; left: -12px;
+    width: 70%; height: 70%;
+    border: 2px solid var(--green); z-index: 0; pointer-events: none;
+  }
+  .mission-img-placeholder {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #dce8e1 0%, #b8cfc0 100%);
+    color: #7a9e88; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-section {
+    background: var(--grey-dark);
+    padding: 80px 6%; text-align: center;
+  }
+  .pull-quote {
+    max-width: 780px; margin: 0 auto;
+    font-family: 'Lora', serif; font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+    color: var(--white); line-height: 1.6; font-style: italic; font-weight: 400;
+  }
+  .pull-quote em { color: var(--green-light); font-style: normal; }
+  .pull-attr { margin-top: 1.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── SERVICES ── */
+  .services { background: var(--warm); }
+
+  .services-header { max-width: 1100px; margin: 0 auto 3rem; }
+  .services-header h2 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 400; color: var(--grey-dark); }
+  .services-header p { font-size: 0.95rem; color: var(--text-soft); line-height: 1.7; margin-top: 0.75rem; max-width: 600px; }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); max-width: 1100px; margin: 0 auto;
+  }
+
+  .service-card {
+    background: var(--white); padding: 2.2rem 1.6rem;
+    position: relative; overflow: hidden; transition: background 0.3s;
+  }
+  .service-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--green); transform: scaleX(0); transition: transform 0.3s;
+  }
+  .service-card:hover { background: var(--grey-dark); }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-card:hover .svc-icon { color: var(--green-light); }
+  .service-card:hover h3 { color: var(--white); }
+  .service-card:hover p  { color: rgba(255,255,255,0.5); }
+
+  .svc-icon { font-size: 2rem; margin-bottom: 0.9rem; color: var(--green); transition: color 0.3s; display: block; }
+  .service-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.5rem; transition: color 0.3s; line-height: 1.3; }
+  .service-card p  { font-size: 0.81rem; color: var(--text-soft); line-height: 1.65; transition: color 0.3s; }
+
+  /* ── CERTIFICATIONS ── */
+  .certs { background: var(--cream); }
+
+  .certs-inner { max-width: 1100px; margin: 0 auto; }
+  .certs-inner h2 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 400; color: var(--grey-dark); margin-bottom: 0.75rem; }
+  .certs-inner > p { font-size: 0.96rem; color: var(--text-soft); line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px; }
+
+  .certs-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+  }
+
+  .cert-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    padding: 1.6rem 1.8rem;
+  }
+  .cert-badge {
+    display: inline-block;
+    background: var(--green-muted); color: var(--green-dark);
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 10px; margin-bottom: 0.75rem;
+  }
+  .cert-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--grey-dark); }
+  .cert-card p  { font-size: 0.82rem; color: var(--text-soft); line-height: 1.6; }
+
+  /* ── IMPACT ── */
+  .impact { background: var(--warm); }
+
+  .impact-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+
+  .impact-img { position: relative; aspect-ratio: 4/3; overflow: visible; }
+  .impact-img::after {
+    content: '';
+    position: absolute; top: -12px; right: -12px;
+    width: 70%; height: 70%;
+    border: 2px solid var(--gold); z-index: 0; pointer-events: none;
+  }
+  .impact-img-placeholder { width:100%;height:100%;position:relative;z-index:1; }
+
+  .impact-text h2 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 400; line-height: 1.35; margin-bottom: 1.2rem; color: var(--grey-dark); }
+  .impact-text p  { font-size: 0.97rem; color: var(--text-soft); line-height: 1.85; margin-bottom: 1rem; }
+
+  .impact-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .pill {
+    background: var(--green-muted); color: var(--green-dark);
+    border: 1px solid rgba(46,107,71,0.2);
+    padding: 6px 14px; font-size: 0.78rem; font-weight: 600;
+  }
+
+  /* ── PROJECTS ── */
+  .projects { background: var(--white); }
+
+  .projects-header { max-width: 1100px; margin: 0 auto 3rem; }
+  .projects-header h2 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 400; color: var(--grey-dark); }
+  .projects-header p { font-size: 0.96rem; color: var(--text-soft); line-height: 1.7; margin-top: 0.75rem; max-width: 600px; }
+
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+
+  .project-card { overflow: hidden; }
+  .project-img {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #dce8e1 0%, #b8cfc0 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: #7a9e88; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 1rem; border-bottom: 3px solid var(--green);
+  }
+  .project-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .project-card .location { font-size: 0.78rem; color: var(--green); font-weight: 600; margin-bottom: 0.35rem; }
+  .project-card p  { font-size: 0.83rem; color: var(--text-soft); line-height: 1.65; }
+
+  /* ── PARTNERS ── */
+  .partners { background: var(--cream); }
+  .partners-inner { max-width: 1100px; margin: 0 auto; }
+  .partners-inner h2 { font-family: 'Lora', serif; font-size: 1.8rem; font-weight: 400; color: var(--grey-dark); margin-bottom: 0.6rem; }
+  .partners-inner > p { font-size: 0.96rem; color: var(--text-soft); line-height: 1.7; margin-bottom: 2.2rem; max-width: 580px; }
+  .partner-logos { display: flex; gap: 2rem; flex-wrap: wrap; align-items: center; justify-content: center; }
+  .partner-logo {
+    height: 110px; width: 190px;
+    background: var(--white); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.2rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .partner-logo:hover { border-color: var(--green); box-shadow: 0 4px 16px rgba(46,107,71,0.1); }
+  .partner-logo img { max-height: 74px; max-width: 150px; width: auto; height: auto; object-fit: contain; display: block; }
+
+  /* ── CONTACT PAGE ── */
+  .contact-section { background: var(--warm); }
+
+  .contact-inner { max-width: 1100px; margin: 0 auto; }
+  .contact-inner > h2 { font-family: 'Lora', serif; font-size: 2rem; font-weight: 400; color: var(--grey-dark); margin-bottom: 0.75rem; }
+  .contact-inner > p  { font-size: 0.97rem; color: var(--text-soft); line-height: 1.75; margin-bottom: 3rem; max-width: 560px; }
+
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start;
+  }
+
+  .contact-details h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1.4rem; color: var(--grey-dark); }
+
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 14px; margin-bottom: 1.2rem;
+  }
+  .cc-icon {
+    width: 38px; height: 38px; background: var(--green); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.9rem; flex-shrink: 0; margin-top: 2px;
+  }
+  .cc-text .cc-label { font-size: 0.66rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 3px; font-weight: 600; }
+  .cc-text .cc-value { font-size: 0.9rem; color: var(--grey-dark); font-weight: 500; }
+
+  .contact-form { background: var(--white); padding: 2.5rem; border-top: 3px solid var(--green); }
+  .contact-form h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--grey-dark); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid rgba(58,58,58,0.18); background: var(--cream);
+    font-family: 'Be Vietnam Pro', sans-serif; font-size: 0.9rem; color: var(--grey-dark);
+    outline: none; transition: border-color 0.2s; appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--green); background: var(--white); }
+  .form-group textarea { resize: vertical; min-height: 130px; }
+
+  .btn-submit {
+    width: 100%; background: var(--green); color: var(--white);
+    padding: 14px; border: none; cursor: pointer;
+    font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 3px; text-transform: uppercase;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { background: var(--green-dark); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--grey-dark); padding: 2.8rem 6%; border-top: 3px solid var(--green); }
+
+  .footer-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 1.8rem;
+  }
+
+  .footer-logo img { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 1rem; display: block; }
+  .footer-desc { font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.75; margin-top: 0.5rem; text-align: center; max-width: 520px; }
+
+  /* Social icons — muted, ready to activate later */
+  .footer-socials { display: none; }
+  .social-link { display: none; }
+
+  .footer-nav {
+    display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
+    list-style: none; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.4rem; width: 100%;
+  }
+  .footer-nav a { color: rgba(255,255,255,0.35); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; letter-spacing: 0.3px; }
+  .footer-nav a:hover { color: var(--green-light); }
+
+  .footer-bottom {
+    width: 100%; border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.2rem; text-align: center;
+    font-size: 0.74rem; color: rgba(255,255,255,0.2); letter-spacing: 0.5px;
+  }
+  .footer-bottom a { color: rgba(255,255,255,0.25); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--green-light); }
+
+  /* Hide old multi-column footer elements if present */
+  .footer-links, .footer-legal { display: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .mission-inner, .impact-inner, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .certs-grid    { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row      { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .certs-grid    { grid-template-columns: 1fr; }
+    .nav-links     { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" aria-label="BawaCap Limited">
+    <!-- Clean horizontal SVG logo: tower icon + plain wordmark -->
+    <svg height="42" viewBox="0 0 280 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tower legs -->
+      <line x1="20" y1="38" x2="8"  y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+      <line x1="20" y1="38" x2="32" y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+      <line x1="20" y1="10" x2="8"  y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+      <line x1="20" y1="10" x2="32" y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+      <!-- Braces -->
+      <line x1="13" y1="26" x2="27" y2="26" stroke="#2e6b47" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="10" y1="33" x2="30" y2="33" stroke="#2e6b47" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Mast -->
+      <line x1="20" y1="4"  x2="20" y2="10" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+      <!-- Signal arcs -->
+      <path d="M16 11.5 A5 5 0 0 1 24 11.5" stroke="#2e6b47" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M13 8.5  A9 9 0 0 1 27 8.5"  stroke="#2e6b47" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
+      <!-- Gold apex dot -->
+      <circle cx="20" cy="4" r="2" fill="#c8a96e"/>
+      <!-- Wordmark: BAWACAP LIMITED -->
+      <text x="44" y="27"
+        font-family="Be Vietnam Pro, sans-serif"
+        font-size="17"
+        font-weight="700"
+        letter-spacing="1"
+        fill="#ffffff">BAWACAP</text>
+      <text x="44" y="40"
+        font-family="Be Vietnam Pro, sans-serif"
+        font-size="9.5"
+        font-weight="400"
+        letter-spacing="4"
+        fill="#4a9165">LIMITED</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mission">About Us</a></li>
+    <li><a href="#services">What We Do</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#impact">Our Impact</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <svg class="hero-deco" width="460" height="540" viewBox="0 0 44 44" fill="none">
+    <line x1="22" y1="36" x2="10" y2="36" stroke="#2e6b47" stroke-width="2"/>
+    <line x1="22" y1="36" x2="34" y2="36" stroke="#2e6b47" stroke-width="2"/>
+    <line x1="22" y1="9"  x2="10" y2="36" stroke="#2e6b47" stroke-width="2"/>
+    <line x1="22" y1="9"  x2="34" y2="36" stroke="#2e6b47" stroke-width="2"/>
+    <line x1="15" y1="24" x2="29" y2="24" stroke="#2e6b47" stroke-width="1.5"/>
+    <line x1="12" y1="31" x2="32" y2="31" stroke="#2e6b47" stroke-width="1.5"/>
+    <line x1="22" y1="4"  x2="22" y2="9"  stroke="#2e6b47" stroke-width="2"/>
+    <path d="M18 11 A5.5 5.5 0 0 1 26 11" stroke="#2e6b47" stroke-width="1.8" fill="none"/>
+    <path d="M15 8 A9 9 0 0 1 29 8" stroke="#2e6b47" stroke-width="1.3" fill="none" opacity="0.55"/>
+    <circle cx="22" cy="4" r="2" fill="#c8a96e"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Nairobi, Kenya</div>
+    <h1>Building the Physical Backbone of <em>Digital Inclusion</em></h1>
+    <p class="hero-sub">
+      Connectivity is no longer optional infrastructure. It determines access to mobile money, emergency response, healthcare, education, and participation in markets. BawaCap builds the towers that make this possible — reliably, sustainably, and in the places that need it most.
+    </p>
+    <div class="hero-cta">
+      <a href="#mission" class="btn-primary">Our Story</a>
+      <a href="#projects" class="btn-outline">See Our Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ACCENT BAR -->
+<div class="accent-bar">
+  <p>"In many of the communities where we build, the activation of a single tower changes daily life — turning <em>isolation into participation</em> and latency into opportunity."</p>
+</div>
+
+<!-- MISSION / ABOUT -->
+<section class="mission" id="mission">
+  <div class="mission-inner">
+    <div class="mission-text">
+      <span class="section-eyebrow">Who We Are</span>
+      <h2>Infrastructure built where it <em>matters most</em></h2>
+      <p>BawaCap Limited is a Kenyan general contracting firm specialising in telecom infrastructure and civil works. Locally incorporated and rooted in Nairobi, we build the foundational infrastructure that powers a connected Kenya — from tower foundations and BTS implementation to site civil works and solar integration.</p>
+      <p>We work as a trusted subcontractor to Kenya's leading infrastructure partners — Leadcom Kenya and American Towers Company — delivering projects for major network operators including Safaricom and Airtel. Our teams are known for reliability, technical precision, and strict adherence to industry standards.</p>
+      <p>While our role is technical, the impact is human: large populations remain excluded from economic, educational, and informational systems simply because connectivity has not yet reached them. Every tower we build changes that — and BawaCap sits at the intersection of infrastructure, clean energy, and access.</p>
+    </div>
+    <div class="mission-img">
+      <!-- Place your company/team image at Images/about-us.jpg -->
+      <img src="Images/Telecom Centered Logo.png"
+           alt="BawaCap team on site"
+           style="width:100%; height:100%; object-fit:cover; display:block; position:relative; z-index:1;"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="mission-img-placeholder" style="display:none; position:absolute; inset:0;">Company Image</div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<div class="pull-section">
+  <p class="pull-quote">"To deliver exceptional Civil Works and Tower Works solutions in Kenya through a commitment to quality, safety, and customer satisfaction — fostering innovation, ensuring <em>sustainable practices</em>, and creating lasting value for our clients and the communities we serve."</p>
+  <p class="pull-attr">— BawaCap Limited, Our Mission</p>
+</div>
+
+<!-- WHAT WE DO -->
+<section class="services" id="services">
+  <div class="services-header">
+    <span class="section-eyebrow">What We Do</span>
+    <h2>From groundworks to go-live</h2>
+    <p>We deliver end-to-end tower infrastructure solutions — combining civil expertise with telecom precision to connect communities that need it most.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="svc-icon">🏗️</span>
+      <h3>Civil Works</h3>
+      <p>Full civil scope for tower construction: site preparation, access roads, excavation, structural foundations, concrete works, and equipment base installation — all delivered to NCA standards.</p>
+    </div>
+    <div class="service-card">
+      <span class="svc-icon">📡</span>
+      <h3>BTS Implementation & Maintenance</h3>
+      <p>Tower foundations, BTS-site construction, colocation works, technical site surveys, and ongoing maintenance — delivered for Safaricom and Airtel sites across Kenya through our infrastructure partners.</p>
+    </div>
+    <div class="service-card">
+      <span class="svc-icon">📋</span>
+      <h3>Project Management</h3>
+      <p>End-to-end oversight from site surveys and procurement through construction, commissioning, and handover — ensuring every project is delivered on time, safely, and within budget.</p>
+    </div>
+    <div class="service-card">
+      <span class="svc-icon">🏢</span>
+      <h3>General Contracting</h3>
+      <p>General contracting for commercial and industrial infrastructure: renovation, remodelling, design-and-build, and infrastructure development — drawing on our experienced site teams and certified expertise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certs" id="certifications">
+  <div class="certs-inner">
+    <span class="section-eyebrow">Our Credentials</span>
+    <h2>Certified. Compliant. Trusted.</h2>
+    <p>BawaCap holds all requisite industry certifications, ensuring every project is delivered to the highest regulatory and professional standards.</p>
+    <div class="certs-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="cert-card">
+        <img src="Images/NCA.png" alt="NCA — National Construction Authority"
+             style="height:64px; width:auto; object-fit:contain; display:block; margin-bottom:1rem;" />
+        <span class="cert-badge">NCA 6</span>
+        <h3>Civil Works</h3>
+        <p>National Construction Authority certification for Building Works <!--Reg. No. <strong>92114/B/0325</strong>--> authorising BawaCap to undertake structural, foundation, and civil works projects across Kenya.</p>
+      </div>
+      <div class="cert-card">
+        <img src="Images/NCA.png" alt="NCA — National Construction Authority"
+             style="height:64px; width:auto; object-fit:contain; display:block; margin-bottom:1rem;" />
+        <span class="cert-badge">NCA 6</span>
+        <h3>Electrical Works</h3>
+        <p>National Construction Authority certification for Electrical Works <!--Reg. No. <strong>92114/E/0325</strong>-->covering power systems, solar integration, and electrical infrastructure for tower and commercial sites.</p>
+      </div>
+      <div class="cert-card">
+        <img src="Images/Dosh.jpg" alt="DOSHS — Directorate of Occupational Safety and Health Services"
+             style="height:64px; width:auto; object-fit:contain; display:block; margin-bottom:1rem;" />
+        <span class="cert-badge">DOSHS</span>
+        <h3>Occupational Safety &amp; Health</h3>
+        <p><!--Cert. No. <strong>NRB/0024254/02/25</strong>-->Directorate of Occupational Safety and Health Services workplace registration, demonstrating our commitment to safe working environments on every site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT / SOLAR -->
+<section class="impact" id="impact">
+  <div class="impact-inner">
+    <div class="impact-img">
+      <img src="Images/solar-panels.png" alt="Solar-powered tower site in Kenya" style="width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;" />
+    </div>
+    <div class="impact-text">
+      <span class="section-eyebrow">Energy &amp; Community Impact</span>
+      <h2>Solar-powered towers. Communities connected.</h2>
+      <p>A core constraint in underserved regions is energy. BawaCap addresses this directly — solar integration is a core part of our tower construction scope, reducing dependence on diesel generators and enabling reliable operation in off-grid or energy-constrained areas where grid power is unavailable or unreliable.</p>
+      <p>This approach lowers emissions, improves long-term resilience, and aligns connectivity expansion with climate responsibility — making each tower not just a signal source, but a sustainable asset for the community it serves.</p>
+      <p>Beyond network access, some of our tower sites incorporate <strong>free community charging stations</strong> for phones and computers — often becoming informal hubs of connection, learning, and small-scale economic activity in areas with limited electricity access.</p>
+      <div class="impact-pills">
+        <span class="pill">☀️ Solar-first design</span>
+        <span class="pill">🔋 Off-grid capable</span>
+        <span class="pill">📱 Free community charging</span>
+        <span class="pill">🌍 Reduced emissions</span>
+        <span class="pill">💡 Energy resilience</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-header">
+    <span class="section-eyebrow">Recent Projects</span>
+    <h2>Work on the ground</h2>
+    <p>A selection of tower construction and BTS deployment projects delivered across Kenya.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <!-- Place project image at Images/project-diani.jpg (recommended: 800×500px) -->
+      <div class="project-img" style="position:relative; padding:0; overflow:hidden;">
+        <img src="Images/coast.jpg"
+             alt="Diani MSR Telecom Site Build"
+             style="width:100%; height:100%; object-fit:cover; display:block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; background:linear-gradient(135deg,#dce8e1,#b8cfc0); color:#7a9e88; font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; position:absolute; inset:0;">Project Image</div>
+      </div>
+      <h3>Telecom Site Build</h3>
+      <div class="location">📍 Coast Region</div>
+      <p>Full tower site construction for Leadcom Integrated Solutions — scope covering civil labour, site spreading, and all electrical works from foundation through commissioning.</p>
+    </div>
+    <div class="project-card">
+      <!-- Place project image at Images/project-umoja.jpg (recommended: 800×500px) -->
+      <div class="project-img" style="position:relative; padding:0; overflow:hidden;">
+        <img src="Images/poles.jpg"
+             alt="Umoja Kara Chief Colocation Works"
+             style="width:100%; height:100%; object-fit:cover; display:block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; background:linear-gradient(135deg,#dce8e1,#b8cfc0); color:#7a9e88; font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; position:absolute; inset:0;">Project Image</div>
+      </div>
+      <h3>Colocation Works</h3>
+      <div class="location">📍 Nairobi</div>
+      <p>Poles and bracket installation for an Airtel colocation project, delivered for Leadcom Integrated Solutions — expanding network capacity on an existing tower site in Nairobi.</p>
+    </div>
+    <div class="project-card">
+      <!-- Place project image at Images/project-supply.jpg (recommended: 800×500px) -->
+      <div class="project-img" style="position:relative; padding:0; overflow:hidden;">
+        <img src="Images/nairobi_tower.jpg"
+             alt="Telecom Site Materials Supply"
+             style="width:100%; height:100%; object-fit:cover; display:block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; background:linear-gradient(135deg,#dce8e1,#b8cfc0); color:#7a9e88; font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; position:absolute; inset:0;">Project Image</div>
+      </div>
+      <h3>Maintenance &amp; Audit</h3>
+      <div class="location">📍 Various Sites, Kenya</div>
+      <p>Scheduled and reactive maintenance across active telecom tower sites — covering structural inspections, power system checks, antenna alignment verification, and full technical audits. <!--Each audit produces a detailed site condition report, identifying remedial actions and ensuring every site remains compliant, operational, and performing to specification.--></p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+  <div class="partners-inner">
+    <span class="section-eyebrow">Our Partners</span>
+    <h2>Working with the networks that matter</h2>
+    <p>We operate as a trusted subcontractor within Kenya's telecom infrastructure ecosystem, working directly with leading tower companies and delivering for the country's major network operators.</p>
+    <div class="partner-logos">
+      <div class="partner-logo">
+        <img src="Images/Safaricom-logo-768x470.webp" alt="Safaricom" />
+      </div>
+      <div class="partner-logo">
+        <img src="Images/Airtel.png" alt="Airtel Kenya" />
+      </div>
+      <div class="partner-logo">
+        <img src="Images/Leadcom.jpg" alt="Leadcom Kenya" />
+      </div>
+      <div class="partner-logo">
+        <img src="Images/ATC.png" alt="American Tower Company" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <span class="section-eyebrow">Get In Touch</span>
+    <h2>Let's talk about building something that matters</h2>
+    <p>Whether you're a network operator, infrastructure partner, or organisation interested in what we do — we'd love to hear from you.</p>
+
+    <div class="contact-layout">
+      <!-- Left: contact details -->
+      <div class="contact-details">
+        <h3>Reach us directly</h3>
+        <div class="contact-item">
+          <div class="cc-icon">✉</div>
+          <div class="cc-text">
+            <div class="cc-label">Email</div>
+            <div class="cc-value"><a href="mailto:info@bawacap.com" style="color:inherit; text-decoration:none;">info@bawacap.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="cc-icon">📞</div>
+          <div class="cc-text">
+            <div class="cc-label">Phone</div>
+            <div class="cc-value">+254 791 480 021</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="cc-icon">📍</div>
+          <div class="cc-text">
+            <div class="cc-label">Office</div>
+            <div class="cc-value">P.O. Box 1383, Ruaraka, Nairobi, Kenya</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="contact-form">
+        <h3>Send us a message</h3>
+
+        <!-- Web3Forms — submissions go to info@bawacap.com -->
+        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <!-- Web3Forms access key -->
+          <input type="hidden" name="access_key" value="2f5bc770-47ac-44d0-972a-8a56345f0354" />
+          <!-- Redirect back to same page after submit (Web3Forms default thank-you page is suppressed) -->
+          <input type="hidden" name="redirect" value="false" />
+          <!-- Subject prefix in inbox -->
+          <input type="hidden" name="subject" value="New enquiry from BawaCap website" />
+          <!-- Honeypot spam protection -->
+          <input type="checkbox" name="botcheck" style="display:none;" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="first_name" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="last_name" placeholder="Smith" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="email@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+254 700 000 000" />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject_topic" required>
+              <option value="" disabled selected>Select a topic…</option>
+              <option>Tower Construction Enquiry</option>
+              <option>BTS Installation &amp; Maintenance</option>
+              <option>Partnership / Subcontracting</option>
+              <option>General Enquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us about your project or enquiry…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+        </form>
+
+        <!-- Confirmation message — shown after successful submission -->
+        <div id="formSuccess" style="display:none; margin-top:1.5rem; padding:1.2rem 1.4rem;
+             background:#f0f8f3; border-left:3px solid #2e6b47;">
+          <p style="font-size:0.95rem; font-weight:600; color:#1e4a30; margin-bottom:0.3rem;">
+            ✅ Message received — thank you.
+          </p>
+          <p style="font-size:0.85rem; color:#5a5a5a; line-height:1.6;">
+            BawaCap will be in touch within the next <strong>24 hours</strong>.
+          </p>
+        </div>
+
+        <!-- Error message — shown if submission fails -->
+        <div id="formError" style="display:none; margin-top:1.5rem; padding:1.2rem 1.4rem;
+             background:#fff5f5; border-left:3px solid #c0392b;">
+          <p style="font-size:0.88rem; color:#c0392b; line-height:1.6;">
+            Something went wrong — please try again or email us directly at
+            <a href="mailto:info@bawacap.com" style="color:#c0392b;">info@bawacap.com</a>.
+          </p>
+        </div>
+      </div>
+
+      <script>
+        const form = document.getElementById('contactForm');
+        const successBox = document.getElementById('formSuccess');
+        const errorBox = document.getElementById('formError');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          submitBtn.textContent = 'Sending…';
+          submitBtn.disabled = true;
+          successBox.style.display = 'none';
+          errorBox.style.display = 'none';
+
+          try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              body: new FormData(form)
+            });
+            const data = await response.json();
+
+            if (data.success) {
+              form.reset();
+              successBox.style.display = 'block';
+              submitBtn.textContent = 'Send Message';
+              submitBtn.disabled = false;
+            } else {
+              throw new Error(data.message || 'Submission failed');
+            }
+          } catch (err) {
+            errorBox.style.display = 'block';
+            submitBtn.textContent = 'Send Message';
+            submitBtn.disabled = false;
+          }
+        });
+      </script>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+
+    <!-- Logo + tagline -->
+    <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <svg height="38" viewBox="0 0 280 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="38" x2="8"  y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="38" x2="32" y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="10" x2="8"  y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="10" x2="32" y2="38" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+        <line x1="13" y1="26" x2="27" y2="26" stroke="#2e6b47" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="10" y1="33" x2="30" y2="33" stroke="#2e6b47" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="20" y1="4"  x2="20" y2="10" stroke="#2e6b47" stroke-width="2" stroke-linecap="round"/>
+        <path d="M16 11.5 A5 5 0 0 1 24 11.5" stroke="#2e6b47" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M13 8.5  A9 9 0 0 1 27 8.5"  stroke="#2e6b47" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="20" cy="4" r="2" fill="#c8a96e"/>
+        <text x="44" y="27" font-family="Be Vietnam Pro, sans-serif" font-size="17" font-weight="700" letter-spacing="1" fill="#ffffff">BAWACAP</text>
+        <text x="44" y="40" font-family="Be Vietnam Pro, sans-serif" font-size="9.5" font-weight="400" letter-spacing="4" fill="#4a9165">LIMITED</text>
+      </svg>
+      <p class="footer-desc">Building the physical backbone of digital inclusion — one tower at a time.</p>
+    </div>
+
+    <!-- Nav links -->
+    <ul class="footer-nav">
+      <li><a href="#">Home</a></li>
+      <li><a href="#mission">About Us</a></li>
+      <li><a href="#services">What We Do</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#impact">Our Impact</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- Bottom line -->
+    <div class="footer-bottom">
+      NCA 6 Civil &amp; Electrical &nbsp;·&nbsp; DOSHS Certified &nbsp;·&nbsp;
+      <a href="mailto:info@bawacap.com">info@bawacap.com</a> &nbsp;·&nbsp;
+      Nairobi, Kenya
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
