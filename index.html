@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Favicon — drop your icon at Images/favicon.png and it will appear automatically -->
+<link rel="icon"             type="image/png" href="Images/favicon.png" />
+<link rel="shortcut icon"    type="image/png" href="Images/favicon.png" />
+<link rel="apple-touch-icon"                  href="Images/favicon.png" />
 <title>BawaCap Limited – Building the Physical Backbone of Digital Inclusion</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
 <style>
@@ -229,7 +233,7 @@
   .certs-inner > p { font-size: 0.96rem; color: var(--text-soft); line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px; }
 
   .certs-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
   }
 
   .cert-card {
@@ -404,19 +408,73 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* ── TEXT JUSTIFICATION ── */
+  .mission-text p  { text-align: justify; }
+  .impact-text p   { text-align: justify; }
+  .cert-card p     { text-align: justify; }
+  .project-card p  { text-align: justify; }
+
+  /* ── HAMBURGER BUTTON ── */
+  .hamburger {
+    display: none;
+    flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px; width: 42px; height: 42px;
+    background: none; border: none; cursor: pointer; padding: 6px; z-index: 200;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.25s ease, width 0.25s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE DRAWER ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 72px; left: 0; right: 0; z-index: 99;
+    background: rgba(28,28,28,0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 2px solid var(--green);
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+  }
+  .mobile-menu.open { max-height: 460px; }
+  .mobile-menu a {
+    display: block; padding: 1rem 6%;
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    font-size: 0.92rem; font-weight: 500; letter-spacing: 0.3px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu a:hover,
+  .mobile-menu a:active { color: var(--green-light); background: rgba(46,107,71,0.08); }
+  .mobile-menu a:last-child { border-bottom: none; }
+
   @media (max-width: 900px) {
     .mission-inner, .impact-inner, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
     .services-grid { grid-template-columns: repeat(2, 1fr); }
     .projects-grid { grid-template-columns: repeat(2, 1fr); }
-    .certs-grid    { grid-template-columns: repeat(2, 1fr); }
+    .certs-grid    { grid-template-columns: repeat(2, 1fr) !important; }
     .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
     .form-row      { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
+    .hamburger     { display: flex; }
+    .mobile-menu   { display: flex; }
+    .nav-links     { display: none; }
     .services-grid { grid-template-columns: 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
-    .certs-grid    { grid-template-columns: 1fr; }
-    .nav-links     { display: none; }
+    .certs-grid    { grid-template-columns: 1fr !important; }
+    .partner-logos { gap: 1rem; }
+    .partner-logo  { width: 130px; height: 90px; }
+    .hero          { padding: 110px 5% 80px; }
+    section        { padding: 60px 5%; }
   }
 </style>
 </head>
@@ -465,7 +523,46 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+
+  <!-- Hamburger — visible on mobile only -->
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile nav drawer -->
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+  <a href="#mission"        onclick="closeMobileMenu()">About Us</a>
+  <a href="#services"       onclick="closeMobileMenu()">What We Do</a>
+  <a href="#certifications" onclick="closeMobileMenu()">Certifications</a>
+  <a href="#impact"         onclick="closeMobileMenu()">Our Impact</a>
+  <a href="#projects"       onclick="closeMobileMenu()">Projects</a>
+  <a href="#contact"        onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<script>
+  const hamburger   = document.getElementById('hamburger');
+  const mobileMenu  = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', function () {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+  }
+
+  // Close drawer on outside click
+  document.addEventListener('click', function(e) {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      closeMobileMenu();
+    }
+  });
+</script>
 
 <!-- HERO -->
 <section class="hero">
@@ -565,7 +662,7 @@
     <span class="section-eyebrow">Our Credentials</span>
     <h2>Certified. Compliant. Trusted.</h2>
     <p>BawaCap holds all requisite industry certifications, ensuring every project is delivered to the highest regulatory and professional standards.</p>
-    <div class="certs-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="certs-grid">
       <div class="cert-card">
         <img src="Images/NCA.png" alt="NCA — National Construction Authority"
              style="height:64px; width:auto; object-fit:contain; display:block; margin-bottom:1rem;" />
@@ -702,7 +799,7 @@
           <div class="cc-icon">✉</div>
           <div class="cc-text">
             <div class="cc-label">Email</div>
-            <div class="cc-value"><a href="mailto:info@bawacap.com" style="color:inherit; text-decoration:none;">info@bawacap.com</a></div>
+            <div class="cc-value"><a href="/cdn-cgi/l/email-protection#fc95929a93bc9e9d8b9d9f9d8cd29f9391" style="color:inherit; text-decoration:none;"><span class="__cf_email__" data-cfemail="c8a1a6aea788aaa9bfa9aba9b8e6aba7a5">[email&#160;protected]</span></a></div>
           </div>
         </div>
         <div class="contact-item">
@@ -789,12 +886,12 @@
              background:#fff5f5; border-left:3px solid #c0392b;">
           <p style="font-size:0.88rem; color:#c0392b; line-height:1.6;">
             Something went wrong — please try again or email us directly at
-            <a href="mailto:info@bawacap.com" style="color:#c0392b;">info@bawacap.com</a>.
+            <a href="/cdn-cgi/l/email-protection#3950575f56795b584e585a5849175a5654" style="color:#c0392b;"><span class="__cf_email__" data-cfemail="274e49414867454650464446570944484a">[email&#160;protected]</span></a>.
           </p>
         </div>
       </div>
 
-      <script>
+      <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const form = document.getElementById('contactForm');
         const successBox = document.getElementById('formSuccess');
         const errorBox = document.getElementById('formError');
